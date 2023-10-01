@@ -1,11 +1,15 @@
 package com.arcinard.hero;
 
-public class Hero {
+import com.googlecode.lanterna.SGR;
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
 
-    private Position position;
+public class Hero extends Element{
+
 
     Hero(int x, int y ){
-        this.position = new Position(x,y);
+        super(x,y);
     }
     public int get_X() {
         return position.getX();
@@ -35,5 +39,10 @@ public class Hero {
     }
     public void setPosition(Position position){
         this.position = position;
+    }
+    public void draw(TextGraphics textGraphics){
+        textGraphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
+        textGraphics.enableModifiers(SGR.BOLD);
+        textGraphics.putString(new TerminalPosition(position.getX(), position.getY()), "H");
     }
 }
