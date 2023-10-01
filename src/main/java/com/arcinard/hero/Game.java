@@ -1,6 +1,5 @@
 package com.arcinard.hero;
 
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
@@ -14,6 +13,8 @@ class Game {
     private Screen screen;
     private int x = 10;
     private int y = 10;
+
+    Hero hero = new Hero(10,10);
 
     Game() {
         try {
@@ -31,8 +32,7 @@ class Game {
 
     private void draw() throws IOException {
         screen.clear();
-        screen.setCharacter(x, y, TextCharacter.fromCharacter('X')
-                [0]);
+        hero.draw(screen);
         screen.refresh();
     }
 
@@ -49,20 +49,20 @@ class Game {
 
             switch (key.getKeyType()) {
                 case ArrowUp -> {
-                    y--;
+                    moveHero(hero.moveUp());
                     break;
                 }
                 case ArrowDown -> {
-                    y++;
+                    moveHero(hero.moveDown());
                     break;
                 }
                 case ArrowRight -> {
-                    x++;
+                    moveHero(hero.moveRight());
                     break;
                 }
                 case ArrowLeft -> {
-                    x--;
-                    break;
+                   moveHero(hero.moveLeft());
+                   break;
                 }
             }
             if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
@@ -72,5 +72,8 @@ class Game {
                     e.printStackTrace();
                 }
             }
+    }
+    private void moveHero(Position position) {
+        hero.setPosition(position);
     }
 }
