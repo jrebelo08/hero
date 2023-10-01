@@ -1,13 +1,13 @@
 package com.arcinard.hero;
 
 import com.googlecode.lanterna.TextCharacter;
-import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.graphics.TextGraphics;
 
 public class Hero {
 
     private Position position;
 
-    Hero(int x, int y){
+    Hero(int x, int y ){
         this.position = new Position(x,y);
     }
     public int get_X() {
@@ -35,9 +35,6 @@ public class Hero {
     }
     public Position moveLeft(){
         return new Position(get_X() - 1, get_Y());
-    }
-    public void draw(Screen screen) {
-        screen.setCharacter(get_X(), get_Y(), TextCharacter.fromCharacter('H')[0]);
     }
     public void setPosition(Position position){
         this.position = position;

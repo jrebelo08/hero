@@ -1,7 +1,6 @@
 package com.arcinard.hero;
 
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -10,11 +9,8 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 class Game {
-    private Screen screen;
-    private int x = 10;
-    private int y = 10;
-
-    Hero hero = new Hero(10,10);
+    public static Screen screen;
+    Arena arena = new Arena(20,20);
 
     Game() {
         try {
@@ -32,7 +28,7 @@ class Game {
 
     private void draw() throws IOException {
         screen.clear();
-        hero.draw(screen);
+        arena.draw(screen);
         screen.refresh();
     }
 
@@ -42,38 +38,9 @@ class Game {
             KeyStroke key = screen.readInput();
             processKey(key);
         }
-
     }
 
-    private void processKey(KeyStroke key) throws IOException {
-
-            switch (key.getKeyType()) {
-                case ArrowUp -> {
-                    moveHero(hero.moveUp());
-                    break;
-                }
-                case ArrowDown -> {
-                    moveHero(hero.moveDown());
-                    break;
-                }
-                case ArrowRight -> {
-                    moveHero(hero.moveRight());
-                    break;
-                }
-                case ArrowLeft -> {
-                   moveHero(hero.moveLeft());
-                   break;
-                }
-            }
-            if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
-                try{
-                    screen.close();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-    }
-    private void moveHero(Position position) {
-        hero.setPosition(position);
+    private void processKey(KeyStroke key) {
+        arena.processKey(key);
     }
 }
