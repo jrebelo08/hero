@@ -1,8 +1,5 @@
 package com.arcinard.hero;
 
-import com.googlecode.lanterna.TextCharacter;
-import com.googlecode.lanterna.graphics.TextGraphics;
-
 public class Hero {
 
     private Position position;

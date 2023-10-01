@@ -1,10 +1,10 @@
 package com.arcinard.hero;
 
-import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.screen.Screen;
+
 
 import java.io.IOException;
 
@@ -45,10 +45,14 @@ public class Arena {
         if (canHeroMove(position))
             hero.setPosition(position);
     }
-
-    public void draw(Screen screen) {
-        screen.setCharacter(hero.get_X(), hero.get_Y(), TextCharacter.fromCharacter('H')[0]);
+    public void draw(TextGraphics textGraphics){
+        textGraphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
+        textGraphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
+        textGraphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
+        textGraphics.enableModifiers(SGR.BOLD);
+        textGraphics.putString(new TerminalPosition(hero.get_X(), hero.get_Y()), "H");
     }
+
     public boolean canHeroMove(Position position){
         int fx = position.getX();
         int fy = position.getY();
