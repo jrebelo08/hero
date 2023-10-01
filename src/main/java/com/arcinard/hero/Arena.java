@@ -9,8 +9,8 @@ import com.googlecode.lanterna.screen.Screen;
 import java.io.IOException;
 
 public class Arena {
-    private static int width;
-    private static int height;
+    private int width;
+    private int height;
     Hero hero = new Hero(10,10);
     Arena(int width,int height){
         this.width = width;
@@ -49,10 +49,10 @@ public class Arena {
     public void draw(Screen screen) {
         screen.setCharacter(hero.get_X(), hero.get_Y(), TextCharacter.fromCharacter('H')[0]);
     }
-    public static boolean canHeroMove(Position position){
+    public boolean canHeroMove(Position position){
         int fx = position.getX();
         int fy = position.getY();
-        return fx >= 0 && fx < width && fy >= 0 && fy < height;
+        return fx >= 0 && fx < width && fy >= 0 && fy < this.height;
     }
 }
 
