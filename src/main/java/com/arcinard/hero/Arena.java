@@ -16,6 +16,7 @@ public class Arena {
     private int height;
     private List<Wall> walls;
     private List<Coin> coins;
+    private List<Monster> monsters;
 
     Hero hero = new Hero(10,10);
     Arena(int width,int height){
@@ -23,21 +24,26 @@ public class Arena {
         this.height = height;
         this.walls = createWalls();
         this.coins = createCoins();
+        this.monsters = createMonsters();
     }
 
     public void processKey(KeyStroke key) {
         switch (key.getKeyType()) {
             case ArrowUp -> {
                 moveHero(hero.moveUp());
+                moveMonsters();
             }
             case ArrowDown -> {
                 moveHero(hero.moveDown());
+                moveMonsters();
             }
             case ArrowRight -> {
                 moveHero(hero.moveRight());
+                moveMonsters();
             }
             case ArrowLeft -> {
                 moveHero(hero.moveLeft());
+                moveMonsters();
             }
         }
         if(key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
@@ -54,6 +60,15 @@ public class Arena {
         if (canHeroMove(position))
             hero.setPosition(position);
     }
+    public void moveMonsters() {
+        for (Monster monster : monsters) {
+            Position newPosition = monster.move();
+
+            if (canMonsterMove(newPosition)) {
+                monster.setPosition(newPosition);
+            }
+        }
+    }
     public void draw(TextGraphics textGraphics){
         textGraphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
         textGraphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
@@ -62,6 +77,10 @@ public class Arena {
             wall.draw(textGraphics);
         for (Coin coin : coins)
             coin.draw(textGraphics);
+        for (Monster monster : monsters)
+            monster.draw(textGraphics);
+
+        verifyMonsterCollisions();
     }
 
     public boolean canHeroMove(Position position){
@@ -103,7 +122,31 @@ public class Arena {
                 coinsToRemove.add(coin);
             }
         }
-
         coins.removeAll(coinsToRemove);
+    }
+    private List<Monster> createMonsters() {
+        Random random = new Random();
+        ArrayList<Monster> monsters = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            monsters.add(new Monster(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+        }
+        return monsters;
+    }
+    private boolean canMonsterMove(Position position) {
+        for (Wall wall : walls) {
+            if (wall.getPosition().equals(position)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    private void verifyMonsterCollisions() {
+        Position heroPosition = hero.getPosition();
+
+        for (Monster monster : monsters) {
+            if (monster.getPosition().equals(heroPosition)) {
+                System.out.println("Game Over");
+            }
+        }
     }
 }

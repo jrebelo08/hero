@@ -21,9 +21,6 @@ public class Hero extends Element{
         this.position.x = x;
     }
 
-    public void set_Y(int y) {
-        this.position.y = y;
-    }
 
     public Position moveUp(){
         return new Position(get_X(), get_Y() - 1);
